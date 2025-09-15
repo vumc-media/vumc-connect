@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VUMC Connect</title>
+  <meta name="description" content="Fast launcher for VUMC Connect." />
+  <meta name="theme-color" content="#0f4c81" />
+
+  <!-- iOS niceties -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="VUMC Connect" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+
+  <style>
+    html,body { height:100%; margin:0; font-family: system-ui, Arial, sans-serif; }
+    .wrap { display:flex; height:100%; align-items:center; justify-content:center; text-align:center; padding:24px; }
+    .card { max-width:520px; }
+    .btn { display:inline-block; padding:12px 18px; border-radius:12px; text-decoration:none; border:1px solid #ddd; }
+  </style>
+
+  <script>
+    // Google Site URL to open
+    const TARGET = "https://sites.google.com/view/vumc-connect/home";
+    window.addEventListener('load', () => setTimeout(() => location.href = TARGET, 600));
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <img src="icons/icon-192.png" alt="" width="96" height="96" style="border-radius:24px; margin-bottom:16px;" />
+      <h1>VUMC Connect</h1>
+      <p>Launching the app… If nothing happens, tap below.</p>
+      <p><a class="btn" href="https://sites.google.com/view/vumc-connect/home">Open VUMC Connect</a></p>
+      <p style="opacity:.7; font-size:.9rem;">Tip: Add to Home Screen for an app-like icon.</p>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+  </script>
+</body>
+</html>
