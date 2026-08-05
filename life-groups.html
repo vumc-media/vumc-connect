@@ -1,1 +1,624 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Groups | VUMC Connect</title>
+  <meta name="description" content="Find community, build relationships, and grow in faith through groups at Versailles United Methodist Church." />
+  <style>
+    :root{
+      --reach:#d94e3f;
+      --grow:#93aa52;
+      --send:#466f79;
+      --send-dark:#294a53;
+      --ink:#1f2328;
+      --muted:#5f666c;
+      --bg:#f5f4f3;
+      --card:#ffffff;
+      --line:rgba(0,0,0,.08);
+      --shadow:0 14px 35px rgba(0,0,0,.12);
+      --radius:24px;
+      --radius-sm:18px;
+      --max:1200px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.5;
+    }
+
+    img{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    button,input{font:inherit}
+
+    .topbar{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      z-index:10;
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+      padding:22px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      color:#fff;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+
+    .brand-mark{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, var(--grow), var(--send));
+      color:#fff;
+      box-shadow:0 10px 24px rgba(0,0,0,.2);
+      font-size:.82rem;
+    }
+
+    .home-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 18px;
+      border:1px solid rgba(255,255,255,.38);
+      border-radius:999px;
+      background:rgba(20,28,34,.22);
+      backdrop-filter:blur(8px);
+      color:#fff;
+      font-weight:800;
+    }
+
+    .hero{
+      position:relative;
+      min-height:610px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      background:
+        linear-gradient(rgba(14,24,30,.45), rgba(14,24,30,.52)),
+        url('https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+      color:#fff;
+      text-align:center;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-1px;
+      height:180px;
+      background:linear-gradient(180deg, rgba(70,111,121,.88), rgba(70,111,121,.70));
+      clip-path:polygon(0 62%, 100% 44%, 100% 100%, 0 100%);
+      z-index:1;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-1px;
+      height:150px;
+      background:rgba(245,244,243,.94);
+      clip-path:polygon(0 70%, 100% 48%, 100% 100%, 0 100%);
+      z-index:2;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:3;
+      width:min(calc(100% - 32px), 900px);
+      padding:120px 0 190px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      margin-bottom:16px;
+      padding:8px 16px;
+      border:1px solid rgba(255,255,255,.34);
+      border-radius:999px;
+      background:rgba(20,28,34,.24);
+      font-size:.82rem;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      margin:0 0 14px;
+      font-size:clamp(3rem, 8vw, 5.5rem);
+      line-height:.96;
+      letter-spacing:.01em;
+      font-weight:900;
+    }
+
+    .hero p{
+      max-width:700px;
+      margin:0 auto;
+      font-size:clamp(1.05rem, 2vw, 1.4rem);
+      color:rgba(255,255,255,.96);
+    }
+
+    .section{
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+      padding:58px 0;
+    }
+
+    .intro{
+      text-align:center;
+      padding-top:24px;
+      padding-bottom:34px;
+    }
+
+    .intro h2{
+      margin:0 0 12px;
+      font-size:clamp(2rem, 4vw, 3.3rem);
+      line-height:1.05;
+    }
+
+    .intro p{
+      max-width:760px;
+      margin:0 auto;
+      color:#40484f;
+      font-size:1.12rem;
+      line-height:1.7;
+    }
+
+    .search-wrap{
+      max-width:620px;
+      margin:30px auto 0;
+      position:relative;
+    }
+
+    .search-wrap input{
+      width:100%;
+      min-height:58px;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:999px;
+      padding:0 54px 0 22px;
+      background:#fff;
+      box-shadow:0 12px 28px rgba(0,0,0,.08);
+      outline:none;
+      font-size:1rem;
+    }
+
+    .search-wrap input:focus{
+      border-color:var(--send);
+      box-shadow:0 0 0 4px rgba(70,111,121,.12), 0 12px 28px rgba(0,0,0,.08);
+    }
+
+    .search-icon{
+      position:absolute;
+      top:50%;
+      right:20px;
+      transform:translateY(-50%);
+      color:var(--send);
+      font-size:1.25rem;
+    }
+
+    .group-section{padding-top:28px}
+
+    .section-heading{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:22px;
+    }
+
+    .section-heading h2{
+      margin:0;
+      font-size:clamp(1.7rem, 3vw, 2.4rem);
+    }
+
+    .section-heading p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:22px;
+    }
+
+    .group-card{
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+      background:#fff;
+      border-radius:var(--radius-sm);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    .group-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 20px 42px rgba(0,0,0,.16);
+    }
+
+    .group-image{
+      position:relative;
+      height:190px;
+      background-size:cover;
+      background-position:center;
+      border-top:9px solid var(--send);
+    }
+
+    .group-card.community .group-image{border-top-color:var(--grow)}
+    .group-card.nextgen .group-image{border-top-color:var(--reach)}
+    .group-card.worship .group-image{border-top-color:var(--send)}
+
+    .tag{
+      position:absolute;
+      left:16px;
+      bottom:14px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:rgba(31,35,40,.78);
+      backdrop-filter:blur(8px);
+      color:#fff;
+      font-size:.76rem;
+      font-weight:900;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+
+    .group-content{
+      display:flex;
+      flex-direction:column;
+      flex:1;
+      padding:22px;
+    }
+
+    .group-content h3{
+      margin:0 0 4px;
+      font-size:1.35rem;
+      line-height:1.2;
+    }
+
+    .subtitle{
+      margin:0 0 12px;
+      color:var(--send);
+      font-weight:800;
+    }
+
+    .group-content p.description{
+      margin:0 0 20px;
+      color:#454d53;
+      line-height:1.6;
+      flex:1;
+    }
+
+    .card-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:max-content;
+      min-height:44px;
+      padding:0 20px;
+      border-radius:999px;
+      background:var(--send);
+      color:#fff;
+      font-weight:800;
+    }
+
+    .community .card-link{background:var(--grow)}
+    .nextgen .card-link{background:var(--reach)}
+
+    .cta-band{
+      position:relative;
+      overflow:hidden;
+      margin-top:34px;
+      background:linear-gradient(135deg, var(--send-dark), var(--send));
+      color:#fff;
+    }
+
+    .cta-band::after{
+      content:"";
+      position:absolute;
+      right:-80px;
+      bottom:-110px;
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    .cta-inner{
+      position:relative;
+      z-index:1;
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+      padding:58px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:30px;
+    }
+
+    .cta-inner h2{
+      margin:0 0 8px;
+      font-size:clamp(1.9rem, 4vw, 3rem);
+    }
+
+    .cta-inner p{
+      margin:0;
+      color:rgba(255,255,255,.9);
+      max-width:680px;
+    }
+
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:170px;
+      min-height:50px;
+      padding:0 24px;
+      border-radius:999px;
+      background:var(--reach);
+      color:#fff;
+      font-weight:900;
+      white-space:nowrap;
+      box-shadow:0 12px 28px rgba(0,0,0,.2);
+    }
+
+    .hidden{display:none!important}
+
+    @media (max-width: 960px){
+      .cards{grid-template-columns:repeat(2, minmax(0,1fr))}
+      .cta-inner{align-items:flex-start;flex-direction:column}
+    }
+
+    @media (max-width: 640px){
+      .topbar{padding-top:16px}
+      .brand-text{display:none}
+      .hero{min-height:540px}
+      .hero-inner{padding:105px 0 155px}
+      .hero::after{height:125px}
+      .hero::before{height:105px}
+      .section{padding:44px 0}
+      .cards{grid-template-columns:1fr}
+      .section-heading{align-items:flex-start;flex-direction:column;gap:6px}
+      .group-image{height:175px}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="VUMC Connect home">
+      <span class="brand-mark">VUMC</span>
+      <span class="brand-text">VUMC Connect</span>
+    </a>
+    <a class="home-link" href="index.html">Back to Home</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">VUMC Groups</div>
+      <h1>Find Your Community</h1>
+      <p>Faith grows deeper when we grow together. Discover a group where you can build relationships, belong, serve, and take your next step.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="section intro">
+      <h2>There’s a place for you here.</h2>
+      <p>Whether you are raising a family, looking for friendship, growing in faith, or serving through worship, our groups help make a large church feel personal.</p>
+
+      <div class="search-wrap">
+        <input id="groupSearch" type="search" placeholder="Search groups..." aria-label="Search groups" />
+        <span class="search-icon" aria-hidden="true">⌕</span>
+      </div>
+    </section>
+
+    <section class="section group-section" data-section>
+      <div class="section-heading">
+        <div>
+          <h2>Community &amp; Adult Groups</h2>
+          <p>Build friendships and grow through shared life and faith.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="group-card community" data-group="Parent Connect Young Families parents family community">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Community</span>
+          </div>
+          <div class="group-content">
+            <h3>Parent Connect</h3>
+            <p class="subtitle">Young Families</p>
+            <p class="description">A welcoming community for parents and young families to build friendships, share life, and grow together.</p>
+            <a class="card-link" href="group.html?id=parent-connect">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card community" data-group="Cornerstones adults 55 senior fellowship community">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Community</span>
+          </div>
+          <div class="group-content">
+            <h3>Cornerstones</h3>
+            <p class="subtitle">Adults 55+</p>
+            <p class="description">Fellowship, meaningful programs, meals, and service opportunities for adults age 55 and older.</p>
+            <a class="card-link" href="group.html?id=cornerstones">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card community" data-group="JOY women fellowship community">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1520857014576-2c4f4c972b57?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Community</span>
+          </div>
+          <div class="group-content">
+            <h3>JOY</h3>
+            <p class="subtitle">Women’s Fellowship</p>
+            <p class="description">A joyful community of women gathering for encouragement, friendship, faith, and service.</p>
+            <a class="card-link" href="group.html?id=joy">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card community" data-group="Seekers adult Bible study Sunday school faith">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Bible Study</span>
+          </div>
+          <div class="group-content">
+            <h3>Seekers</h3>
+            <p class="subtitle">Adult Bible Study</p>
+            <p class="description">A place to ask questions, explore Scripture, and grow in faith through conversation and community.</p>
+            <a class="card-link" href="group.html?id=seekers">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card community" data-group="Men's Group men fellowship faith service">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Community</span>
+          </div>
+          <div class="group-content">
+            <h3>Men’s Group</h3>
+            <p class="subtitle">Faith, Friendship &amp; Service</p>
+            <p class="description">Men connecting through faith, honest conversation, encouragement, and practical service.</p>
+            <a class="card-link" href="group.html?id=mens-group">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card community" data-group="Women's Group women fellowship faith community">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1520857014576-2c4f4c972b57?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Community</span>
+          </div>
+          <div class="group-content">
+            <h3>Women’s Group</h3>
+            <p class="subtitle">Faith &amp; Friendship</p>
+            <p class="description">Women supporting one another through fellowship, spiritual growth, prayer, and shared life.</p>
+            <a class="card-link" href="group.html?id=womens-group">View Group</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section group-section" data-section>
+      <div class="section-heading">
+        <div>
+          <h2>Next Generation</h2>
+          <p>Helping children and students know they belong and grow in faith.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="group-card nextgen" data-group="Kids children families next generation ministry">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Next Generation</span>
+          </div>
+          <div class="group-content">
+            <h3>Kids</h3>
+            <p class="subtitle">Children &amp; Families</p>
+            <p class="description">A safe, engaging place where children discover God’s love through worship, learning, and fun.</p>
+            <a class="card-link" href="group.html?id=kids">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card nextgen" data-group="Youth students teens next generation ministry">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Next Generation</span>
+          </div>
+          <div class="group-content">
+            <h3>Youth</h3>
+            <p class="subtitle">Students</p>
+            <p class="description">Students building friendships, asking real questions, serving others, and growing in a faith of their own.</p>
+            <a class="card-link" href="group.html?id=youth">View Group</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section group-section" data-section>
+      <div class="section-heading">
+        <div>
+          <h2>Worship Ministries</h2>
+          <p>Use your gifts to help lead the church in worship.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="group-card worship" data-group="Choir traditional worship music singers">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Worship</span>
+          </div>
+          <div class="group-content">
+            <h3>Choir</h3>
+            <p class="subtitle">Traditional Worship</p>
+            <p class="description">Singers of varied experience joining together to lead worship through choral music.</p>
+            <a class="card-link" href="group.html?id=choir">View Group</a>
+          </div>
+        </article>
+
+        <article class="group-card worship" data-group="Praise Team contemporary worship band music singers musicians">
+          <div class="group-image" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80');">
+            <span class="tag">Worship</span>
+          </div>
+          <div class="group-content">
+            <h3>Praise Team</h3>
+            <p class="subtitle">Contemporary Worship</p>
+            <p class="description">Vocalists and musicians helping create engaging, Christ-centered contemporary worship.</p>
+            <a class="card-link" href="group.html?id=praise-team">View Group</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <section class="cta-band">
+    <div class="cta-inner">
+      <div>
+        <h2>Not sure where to begin?</h2>
+        <p>Tell us a little about yourself and we’ll help connect you with a group that fits your season of life and interests.</p>
+      </div>
+      <a class="cta-btn" href="connect-card.html">Help Me Connect</a>
+    </div>
+  </section>
+
+  <script>
+    const searchInput = document.getElementById('groupSearch');
+    const groupCards = [...document.querySelectorAll('[data-group]')];
+    const sections = [...document.querySelectorAll('[data-section]')];
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+
+      groupCards.forEach(card => {
+        const terms = card.dataset.group.toLowerCase();
+        card.classList.toggle('hidden', query && !terms.includes(query));
+      });
+
+      sections.forEach(section => {
+        const visibleCards = section.querySelectorAll('[data-group]:not(.hidden)').length;
+        section.classList.toggle('hidden', visibleCards === 0);
+      });
+    });
+  </script>
+
+</body>
+</html>
