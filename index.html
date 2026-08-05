@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>VUMC Connect</title>
   <meta name="description" content="VUMC Connect is the front door for new visitors at Versailles United Methodist Church." />
+
   <style>
     :root{
       --reach:#d94e3f;
@@ -24,6 +26,7 @@
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
+
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
@@ -34,6 +37,7 @@
 
     img{display:block;max-width:100%}
     a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
 
     .hero{
       position:relative;
@@ -114,10 +118,14 @@
       font-weight:800;
       font-size:1.15rem;
       box-shadow:0 16px 35px rgba(217,78,63,.28);
-      transition:.2s ease;
+      transition:transform .2s ease, box-shadow .2s ease;
     }
 
-    .hero-btn:hover{transform:translateY(-2px)}
+    .hero-btn:hover,
+    .hero-btn:focus-visible{
+      transform:translateY(-2px);
+      box-shadow:0 20px 42px rgba(217,78,63,.34);
+    }
 
     .section{
       width:min(calc(100% - 32px), var(--max));
@@ -164,9 +172,7 @@
       box-shadow:var(--shadow);
     }
 
-    .mission-col{
-      background:#fff;
-    }
+    .mission-col{background:#fff}
 
     .mission-top{
       padding:16px 22px;
@@ -249,7 +255,8 @@
       grid-template-columns:repeat(5, minmax(220px,1fr));
       gap:20px;
       overflow-x:auto;
-      padding-bottom:8px;
+      padding:0 0 12px;
+      scroll-snap-type:x proximity;
     }
 
     .explore-card{
@@ -258,6 +265,40 @@
       border-radius:18px;
       overflow:hidden;
       box-shadow:0 14px 30px rgba(0,0,0,.14);
+      transition:transform .2s ease, box-shadow .2s ease;
+      scroll-snap-align:start;
+      position:relative;
+    }
+
+    .explore-card:hover,
+    .explore-card:focus-visible{
+      transform:translateY(-5px);
+      box-shadow:0 22px 44px rgba(0,0,0,.19);
+      outline:none;
+    }
+
+    .explore-card::after{
+      content:"→";
+      position:absolute;
+      right:16px;
+      bottom:14px;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:var(--send);
+      font-weight:900;
+      opacity:0;
+      transform:translateX(-6px);
+      transition:.2s ease;
+    }
+
+    .explore-card:hover::after,
+    .explore-card:focus-visible::after{
+      opacity:1;
+      transform:translateX(0);
     }
 
     .explore-image{
@@ -273,8 +314,15 @@
     .explore-card:nth-child(4) .explore-image{border-top-color:#5f8b96}
     .explore-card:nth-child(5) .explore-image{border-top-color:var(--reach)}
 
+    .explore-card:nth-child(1)::after{background:var(--reach)}
+    .explore-card:nth-child(2)::after{background:var(--grow)}
+    .explore-card:nth-child(3)::after{background:var(--send)}
+    .explore-card:nth-child(4)::after{background:#5f8b96}
+    .explore-card:nth-child(5)::after{background:var(--reach)}
+
     .explore-content{
-      padding:18px 18px 20px;
+      padding:18px 52px 20px 18px;
+      min-height:160px;
     }
 
     .explore-content h3{
@@ -337,9 +385,7 @@
       overflow:hidden;
     }
 
-    .form-panel{
-      padding:28px;
-    }
+    .form-panel{padding:28px}
 
     .form-panel h3,
     .app-panel h3{
@@ -353,7 +399,6 @@
       border-radius:11px;
       border:1px solid rgba(0,0,0,.15);
       padding:0 14px;
-      font:inherit;
       margin-bottom:12px;
       outline:none;
     }
@@ -395,7 +440,10 @@
       font-weight:800;
       cursor:pointer;
       padding:0 24px;
+      transition:.2s ease;
     }
+
+    .submit-btn:hover{transform:translateY(-2px)}
 
     .form-note{
       text-align:center;
@@ -449,38 +497,61 @@
     }
 
     .store-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       background:rgba(20,26,31,.82);
       color:#fff;
       border-radius:10px;
       padding:10px 14px;
       font-size:.92rem;
       font-weight:700;
+      transition:.2s ease;
     }
 
-    @media (max-width: 1180px){
+    .store-badge:hover{
+      transform:translateY(-2px);
+      background:rgba(20,26,31,.94);
+    }
+
+    @media (max-width:1180px){
       .connect-grid{grid-template-columns:1fr 1fr}
       .connect-copy{grid-column:1/-1}
     }
 
-    @media (max-width: 900px){
+    @media (max-width:900px){
       .mission-band-wrap{grid-template-columns:1fr}
-      .mission-col + .mission-col .mission-body{border-left:none;border-top:1px solid rgba(0,0,0,.08)}
+      .mission-col + .mission-col .mission-body{
+        border-left:none;
+        border-top:1px solid rgba(0,0,0,.08);
+      }
       .connect-grid{grid-template-columns:1fr}
       .hero{min-height:640px}
       .hero-inner{padding-bottom:180px}
       .section{padding:52px 0}
     }
 
-    @media (max-width: 640px){
+    @media (max-width:640px){
       .hero{min-height:560px}
       .hero-inner{padding-top:44px;padding-bottom:150px}
       .hero::after{height:120px}
       .hero::before{height:100px}
       .form-panel,.app-panel{padding:22px}
       .explore-wrap{padding-top:60px}
+      .explore-content{min-height:150px}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <section class="hero">
@@ -495,17 +566,23 @@
   <section class="section section-center love">
     <h2>Love Like Jesus</h2>
     <div class="love-accent"></div>
-    <p class="lead">At VUMC, everything we do flows from one calling: to love like Jesus. That means meeting people where they are, extending grace, building relationships, and serving our community in real and meaningful ways.</p>
+    <p class="lead">
+      At VUMC, everything we do flows from one calling: to love like Jesus.
+      That means meeting people where they are, extending grace, building
+      relationships, and serving our community in real and meaningful ways.
+    </p>
 
     <div class="mission-band-wrap">
       <div class="mission-col">
         <div class="mission-top reach">REACH</div>
         <div class="mission-body">Welcoming people where they are.</div>
       </div>
+
       <div class="mission-col">
         <div class="mission-top grow">GROW</div>
         <div class="mission-body">Deepening faith in community.</div>
       </div>
+
       <div class="mission-col">
         <div class="mission-top send">SEND</div>
         <div class="mission-body">Serving beyond ourselves.</div>
@@ -513,51 +590,51 @@
     </div>
   </section>
 
-  <section class="section explore-wrap">
+  <section class="section explore-wrap" aria-labelledby="explore-title">
     <div class="explore-header">
-      <h2>Explore VUMC</h2>
+      <h2 id="explore-title">Explore VUMC</h2>
     </div>
 
     <div class="explore-cards">
-      <article class="explore-card">
+      <a class="explore-card" href="worship.html" aria-label="Explore Worship">
         <div class="explore-image" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1200&q=80');"></div>
         <div class="explore-content">
           <h3>Worship</h3>
           <p>Traditional and contemporary worship designed to help you encounter God.</p>
         </div>
-      </article>
+      </a>
 
-      <article class="explore-card">
+      <a class="explore-card" href="life-groups.html" aria-label="Explore Groups">
         <div class="explore-image" style="background-image:url('https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1200&q=80');"></div>
         <div class="explore-content">
-          <h3>Life Groups</h3>
+          <h3>Groups</h3>
           <p>Find community, build relationships, and grow in faith together.</p>
         </div>
-      </article>
+      </a>
 
-      <article class="explore-card">
+      <a class="explore-card" href="kids-families.html" aria-label="Explore Kids and Family">
         <div class="explore-image" style="background-image:url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80');"></div>
         <div class="explore-content">
           <h3>Kids &amp; Family</h3>
           <p>A safe, engaging place for children and families to learn and grow.</p>
         </div>
-      </article>
+      </a>
 
-      <article class="explore-card">
+      <a class="explore-card" href="local-missions.html" aria-label="Explore Local Missions">
         <div class="explore-image" style="background-image:url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80');"></div>
         <div class="explore-content">
           <h3>Local Missions</h3>
           <p>Serving our community with compassion, purpose, and action.</p>
         </div>
-      </article>
+      </a>
 
-      <article class="explore-card">
+      <a class="explore-card" href="https://www.versaillesumc.org/next-steps/" aria-label="Explore Next Steps">
         <div class="explore-image" style="background-image:url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1200&q=80');"></div>
         <div class="explore-content">
           <h3>Next Steps</h3>
           <p>No matter where you are on your journey, there’s a next step for you here.</p>
         </div>
-      </article>
+      </a>
     </div>
   </section>
 
@@ -565,11 +642,13 @@
     <div class="connect-grid">
       <div class="connect-copy">
         <h2>Two simple ways to connect</h2>
+
         <div class="bullet-list">
           <div class="bullet">
             <div class="bullet-icon">✓</div>
             <div>Fill out the form below.</div>
           </div>
+
           <div class="bullet">
             <div class="bullet-icon">✓</div>
             <div>Or complete the bookmark card and place it in the offering.</div>
@@ -579,35 +658,55 @@
 
       <div class="panel form-panel">
         <h3>Connect With Us</h3>
-        <input class="field" type="text" placeholder="Name" />
-        <input class="field" type="email" placeholder="Email" />
-        <input class="field" type="tel" placeholder="Phone" />
+
+        <input class="field" type="text" placeholder="Name" aria-label="Name" />
+        <input class="field" type="email" placeholder="Email" aria-label="Email" />
+        <input class="field" type="tel" placeholder="Phone" aria-label="Phone" />
 
         <label class="check-row">
           <input type="checkbox" />
           <span>You can text me</span>
         </label>
 
-        <select class="field">
+        <select class="field" aria-label="Choose a next step">
           <option>Choose a next step</option>
           <option>Learn more about VUMC</option>
-          <option>Join a Life Group</option>
+          <option>Join a Group</option>
           <option>Kids &amp; Family Ministry</option>
           <option>Local Missions</option>
           <option>Talk with a Pastor</option>
         </select>
 
         <button class="submit-btn" type="button">Submit</button>
-        <div class="form-note">Or fill out the bookmark card and place it in the offering.</div>
+
+        <div class="form-note">
+          Or fill out the bookmark card and place it in the offering.
+        </div>
       </div>
 
       <div class="panel app-panel">
         <h3>Stay Connected</h3>
         <div class="app-icon">i</div>
-        <p>Use the Church Center app daily to stay updated, explore events, give, join groups, or connect throughout the week.</p>
+
+        <p>
+          Use the Church Center app to stay updated, explore events, give,
+          connect with VUMC, and manage your church profile throughout the week.
+        </p>
+
         <div class="store-row">
-          <div class="store-badge"> App Store</div>
-          <div class="store-badge">▶ Google Play</div>
+          <a
+            class="store-badge"
+            href="https://apps.apple.com/us/app/church-center-app/id1357742931"
+            target="_blank"
+            rel="noopener noreferrer"
+          > App Store</a>
+
+          <a
+            class="store-badge"
+            href="https://play.google.com/store/apps/details?id=com.ministrycentered.churchcenter"
+            target="_blank"
+            rel="noopener noreferrer"
+          >▶ Google Play</a>
         </div>
       </div>
     </div>
